@@ -1,0 +1,49 @@
+- color:
+  - 120
+  - 120
+  - 120
+  id: 0
+  isthing: 0
+  name: Neoplastic
+- color:
+  - 180
+  - 120
+  - 120
+  id: 1
+  isthing: 0
+  name: Non-Neoplastic
+- color:
+  - 6
+  - 230
+  - 230
+  id: 2
+  isthing: 0
+  name: Epithelial
+- color:
+  - 80
+  - 50
+  - 50
+  id: 3
+  isthing: 0
+  name: Inflammatory
+- color:
+  - 4
+  - 200
+  - 3
+  id: 4
+  isthing: 0
+  name: Connective
+- color:
+  - 120
+  - 120
+  - 80
+  id: 5
+  isthing: 0
+  name: Dead
+- color:
+  - 140
+  - 140
+  - 140
+  id: 6
+  isthing: 0
+  name: Background
