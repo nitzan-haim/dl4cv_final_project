@@ -5,7 +5,7 @@ from segm.data import ADE20KSegmentation
 from segm.data import PascalContextDataset
 from segm.data import CityscapesDataset
 from segm.data import Loader
-from pannuke import PannukeDataset
+from segm.data import PannukeDataset
 
 
 def create_dataset(dataset_kwargs):
