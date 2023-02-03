@@ -37,10 +37,11 @@ class BaseMMSeg(Dataset):
         print(f"Use normalization: {self.normalization}")
 
         config = Config.fromfile(config_path)
-
+        print("in base.py: config_path: ", config_path)
         self.ratio = config.max_ratio
         self.dataset = None
         self.config = self.update_default_config(config)
+        print("in base.py: sending to build_dataset: \n", getattr(self.config.data, f"{self.split}"))
         self.dataset = build_dataset(getattr(self.config.data, f"{self.split}"))
 
     def update_default_config(self, config):

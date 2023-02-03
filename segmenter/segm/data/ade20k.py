@@ -25,7 +25,7 @@ class ADE20KSegmentation(BaseMMSeg):
 
     def update_default_config(self, config):
         root_dir = dataset_dir()
-        path = Path(root_dir) / "ade20k"
+        path = Path(root_dir) / "ade20k" / "ade20k"
         config.data_root = path
         if self.split == "train":
             config.data.train.data_root = path / "ADEChallengeData2016"
