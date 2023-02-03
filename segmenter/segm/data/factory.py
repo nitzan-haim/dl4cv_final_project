@@ -17,7 +17,7 @@ def create_dataset(dataset_kwargs):
 
     # load dataset_name
     if dataset_name == "pannuke":
-        dataset_kwargs.pop("patch_size")
+        print("in data/factory.py: dataset_kwargs: \n", dataset_kwargs)
         dataset = PannukeDataset(split=split, **dataset_kwargs)
     elif dataset_name == "imagenet":
         dataset_kwargs.pop("patch_size")
