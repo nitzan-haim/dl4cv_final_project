@@ -4,7 +4,7 @@ import mmcv
 import numpy as np
 import pycocotools.mask as maskUtils
 
-from mmdet.core import BitmapMasks, PolygonMasks
+# from mmdet.core import BitmapMasks, PolygonMasks
 
 from mmseg.datasets import PIPELINES
 try:
@@ -132,30 +132,30 @@ class LoadAnnotationsPannuke:
                 valid_polygons.append(polygon)
         return valid_polygons
 
-    def _load_masks(self, results):
-        """Private function to load mask annotations.
-        Args:
-            results (dict): Result dict from :obj:`mmdet.CustomDataset`.
-        Returns:
-            dict: The dict contains loaded mask annotations.
-                If ``self.poly2mask`` is set ``True``, `gt_mask` will contain
-                :obj:`PolygonMasks`. Otherwise, :obj:`BitmapMasks` is used.
-        """
+    # def _load_masks(self, results):
+    #     """Private function to load mask annotations.
+    #     Args:
+    #         results (dict): Result dict from :obj:`mmdet.CustomDataset`.
+    #     Returns:
+    #         dict: The dict contains loaded mask annotations.
+    #             If ``self.poly2mask`` is set ``True``, `gt_mask` will contain
+    #             :obj:`PolygonMasks`. Otherwise, :obj:`BitmapMasks` is used.
+    #     """
 
-        h, w = results['img_info']['height'], results['img_info']['width']
-        gt_masks = results['ann_info']['masks']
-        if self.poly2mask:
-            gt_masks = BitmapMasks(
-                [self._poly2mask(mask, h, w) for mask in gt_masks], h, w)
-        else:
-            # gt_masks = BitmapMasks(
-            #     [self.process_(mask, h, w) for mask in gt_masks], h, w)
-            gt_masks = PolygonMasks(
-                [self.process_polygons(polygons) for polygons in gt_masks], h,
-                w)
-        results['gt_masks'] = gt_masks
-        results['mask_fields'].append('gt_masks')
-        return results
+    #     h, w = results['img_info']['height'], results['img_info']['width']
+    #     gt_masks = results['ann_info']['masks']
+    #     if self.poly2mask:
+    #         gt_masks = BitmapMasks(
+    #             [self._poly2mask(mask, h, w) for mask in gt_masks], h, w)
+    #     else:
+    #         # gt_masks = BitmapMasks(
+    #         #     [self.process_(mask, h, w) for mask in gt_masks], h, w)
+    #         gt_masks = PolygonMasks(
+    #             [self.process_polygons(polygons) for polygons in gt_masks], h,
+    #             w)
+    #     results['gt_masks'] = gt_masks
+    #     results['mask_fields'].append('gt_masks')
+    #     return results
 
     def _load_semantic_seg(self, results):
         """Private function to load semantic segmentation annotations.
@@ -173,7 +173,13 @@ class LoadAnnotationsPannuke:
         # img_bytes = self.file_client.get(filename)
         # results['gt_semantic_seg'] = mmcv.imfrombytes(
         #     img_bytes, flag='unchanged').squeeze()
-        results['gt_semantic_seg'] = np.load(filename).squeeze()
+        segmap = np.load(filename).squeeze()
+        # mask_channels, h,w = segmap.shape
+        # for i in range(mask_channels):
+        #   (segmap[i])[segmap[i] != 0] = i
+        # segmap = segmap.sum(axis=0)
+        # print("in LoadAnnotationsPannuke.py: segmap shape: ", segmap.shape)
+        results['gt_semantic_seg'] = segmap.astype(np.float32)
         results['seg_fields'].append('gt_semantic_seg')
         return results
 
@@ -192,8 +198,8 @@ class LoadAnnotationsPannuke:
                 return None
         if self.with_label:
             results = self._load_labels(results)
-        if self.with_mask:
-            results = self._load_masks(results)
+        # if self.with_mask:
+        #     results = self._load_masks(results)
         if self.with_seg:
             results = self._load_semantic_seg(results)
         return results

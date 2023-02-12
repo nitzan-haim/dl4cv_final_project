@@ -162,7 +162,6 @@ def main(
 
     # dataset
     dataset_kwargs = variant["dataset_kwargs"]
-    print("in train.py: datset_kwargs:\n", dataset_kwargs)
 
     train_loader = create_dataset(dataset_kwargs)
     val_kwargs = dataset_kwargs.copy()
