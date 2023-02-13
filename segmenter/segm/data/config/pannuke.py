@@ -4,10 +4,8 @@ dataset_type = "PannukeDataset"
 data_root = "/home/labs/testing/class54/project_data"
 # data_root = "/content/gdrive/MyDrive/DL4CV/final_project/data"
 
-# NEEDS TO BE CHANGED
 img_norm_cfg = dict(
-    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=False)
-# NEEDS TO BE CHANGED
+    mean=[189.044, 146.193, 179.719], std=[48.516, 57.598, 45.549], to_rgb=False)
 
 crop_size = (256, 256)
 max_ratio = 1 
