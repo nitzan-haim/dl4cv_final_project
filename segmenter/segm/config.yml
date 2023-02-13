@@ -140,8 +140,8 @@ dataset:
     window_stride: 512
   pannuke:
     epochs: 30
-    eval_freq: 3
-    batch_size: 1
+    eval_freq: 4
+    batch_size: 8
     learning_rate: 0.01
     im_size: 256
     crop_size: 256
