@@ -14,7 +14,6 @@ from mmcv.utils import Config
 from segm.data.utils import STATS, IGNORE_LABEL
 from segm.data import utils
 
-
 class BaseMMSeg(Dataset):
     def __init__(
         self,
@@ -34,14 +33,11 @@ class BaseMMSeg(Dataset):
         for k, v in self.normalization.items():
             v = np.round(255 * np.array(v), 2)
             self.normalization[k] = tuple(v)
-        print(f"Use normalization: {self.normalization}")
 
         config = Config.fromfile(config_path)
-        print("in base.py: config_path: ", config_path)
         self.ratio = config.max_ratio
         self.dataset = None
         self.config = self.update_default_config(config)
-        print("in base.py: sending to build_dataset: \n", getattr(self.config.data, f"{self.split}"))
         self.dataset = build_dataset(getattr(self.config.data, f"{self.split}"))
 
     def update_default_config(self, config):
@@ -54,21 +50,21 @@ class BaseMMSeg(Dataset):
 
         img_scale = (self.ratio * self.image_size, self.image_size)
         if self.split not in train_splits:
-            assert config_pipeline[1]["type"] == "MultiScaleFlipAug"
+            assert config_pipeline[1]["type"] == "MultiScaleFlipAugPannuke"
             config_pipeline = config_pipeline[1]["transforms"]
         for i, op in enumerate(config_pipeline):
             op_type = op["type"]
-            if op_type == "Resize":
+            if op_type == "ResizePannuke":
                 op["img_scale"] = img_scale
-            elif op_type == "RandomCrop":
+            elif op_type == "RandomCropPannuke":
                 op["crop_size"] = (
                     self.crop_size,
                     self.crop_size,
                 )
-            elif op_type == "Normalize":
+            elif op_type == "NormalizePannuke":
                 op["mean"] = self.normalization["mean"]
                 op["std"] = self.normalization["std"]
-            elif op_type == "Pad":
+            elif op_type == "PadPannuke":
                 op["size"] = (self.crop_size, self.crop_size)
             config_pipeline[i] = op
         if self.split == "train":
@@ -134,7 +130,10 @@ class BaseMMSeg(Dataset):
         gt_seg_maps = {}
         for img_info in dataset.img_infos:
             seg_map = Path(dataset.ann_dir) / img_info["ann"]["seg_map"]
-            gt_seg_map = mmcv.imread(seg_map, flag="unchanged", backend="pillow")
+            if dataset.seg_map_suffix.endswith('.npy'): # pannuke
+              gt_seg_map = np.load(seg_map)
+            else:
+              gt_seg_map = mmcv.imread(seg_map, flag="unchanged", backend="pillow")
             gt_seg_map[gt_seg_map == self.ignore_label] = IGNORE_LABEL
             if self.reduce_zero_label:
                 gt_seg_map[gt_seg_map != IGNORE_LABEL] -= 1

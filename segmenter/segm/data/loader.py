@@ -17,7 +17,7 @@ class Loader(DataLoader):
                 sampler=sampler,
             )
         else:
-            super().__init__(
+          super().__init__(
                 dataset,
                 batch_size=batch_size,
                 shuffle=True,

@@ -8,10 +8,8 @@ from mmseg.datasets import DATASETS
 PANNUKE_CONFIG_PATH = Path(__file__).parent / "config" / "pannuke.py"
 PANNUKE_CATEGORIES_PATH = Path(__file__).parent / "config" / "pannuke.yml"
 
-@DATASETS.register_module()
-class PannukeDataset(BaseMMSeg):
+class PannukeSegmentation(BaseMMSeg):
     def __init__(self, image_size, crop_size, split, **kwargs):
-        print(f"in PannukeDataset: image size: {image_size} crop size: {crop_size} split: {split} kwargs: {kwargs}")
         super().__init__(
             image_size,
             crop_size,
@@ -21,12 +19,10 @@ class PannukeDataset(BaseMMSeg):
         )
         self.names, self.colors = utils.dataset_cat_description(PANNUKE_CATEGORIES_PATH)
         self.n_cls = 6
-        self.ignore_label = 0
-        self.reduce_zero_label = True
+        self.reduce_zero_label = False
 
     def update_default_config(self, config):
         root_dir = dataset_dir()
-        # path = Path(root_dir) / "ade20k"
         path = Path(root_dir)
         config.data_root = path
         if self.split == "train":

@@ -11,14 +11,7 @@
   - 120
   id: 1
   isthing: 0
-  name: Non-Neoplastic
-- color:
-  - 6
-  - 230
-  - 230
-  id: 2
-  isthing: 0
-  name: Epithelial
+  name: Non-Neoplastic Epithelial
 - color:
   - 80
   - 50

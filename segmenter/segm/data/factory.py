@@ -5,7 +5,7 @@ from segm.data import ADE20KSegmentation
 from segm.data import PascalContextDataset
 from segm.data import CityscapesDataset
 from segm.data import Loader
-from segm.data import PannukeDataset
+from segm.data import PannukeSegmentation
 
 
 def create_dataset(dataset_kwargs):
@@ -17,8 +17,7 @@ def create_dataset(dataset_kwargs):
 
     # load dataset_name
     if dataset_name == "pannuke":
-        print("in data/factory.py: dataset_kwargs: \n", dataset_kwargs)
-        dataset = PannukeDataset(split=split, **dataset_kwargs)
+        dataset = PannukeSegmentation(split=split, **dataset_kwargs)
     elif dataset_name == "imagenet":
         dataset_kwargs.pop("patch_size")
         dataset = ImagenetDataset(split=split, **dataset_kwargs)
@@ -30,7 +29,6 @@ def create_dataset(dataset_kwargs):
         dataset = CityscapesDataset(split=split, **dataset_kwargs)
     else:
         raise ValueError(f"Dataset {dataset_name} is unknown.")
-
     dataset = Loader(
         dataset=dataset,
         batch_size=batch_size,
