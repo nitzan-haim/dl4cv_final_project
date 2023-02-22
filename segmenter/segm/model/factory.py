@@ -44,7 +44,7 @@ def create_vit(model_cfg):
     backbone = model_cfg.pop("backbone")
 
     normalization = model_cfg.pop("normalization")
-    model_cfg["n_cls"] = 1000
+    model_cfg["n_cls"] = 6
     mlp_expansion_ratio = 4
     model_cfg["d_ff"] = mlp_expansion_ratio * model_cfg["d_model"]
 
@@ -53,16 +53,16 @@ def create_vit(model_cfg):
     else:
         default_cfg = dict(
             pretrained=False,
-            num_classes=1000,
+            num_classes=6,
             drop_rate=0.0,
             drop_path_rate=0.0,
             drop_block_rate=None,
         )
 
     default_cfg["input_size"] = (
-        3,
         model_cfg["image_size"][0],
         model_cfg["image_size"][1],
+        3
     )
     model = VisionTransformer(**model_cfg)
     if backbone == "vit_base_patch8_384":
