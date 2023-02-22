@@ -2,6 +2,7 @@ import click
 import einops
 import torch
 import torchvision
+import numpy as np
 
 import matplotlib.pyplot as plt
 import segm.utils.torch as ptu
@@ -59,12 +60,15 @@ def visualize(
     stats = STATS[normalization]
 
     # Open image and process it
-    try:
+    #try:
+    if image_path.endswith('.npy'):
+        img = Image.fromarray(np.load(image_path).astype('uint8')).convert('RGB')
+    else:
         with open(image_path, "rb") as f:
-            img = Image.open(f)
-            img = img.convert("RGB")
-    except:
-        raise ValueError(f"Provided image path {image_path} is not a valid image file.")
+                img = Image.open(f)
+                img = img.convert("RGB")
+    #except:
+    #    raise ValueError(f"Provided image path {image_path} is not a valid image file.")
 
     # Normalize and resize
     transform = transforms.Compose(
