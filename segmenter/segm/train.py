@@ -180,7 +180,7 @@ def main(
     # optimizer
     optimizer_kwargs = variant["optimizer_kwargs"]
     optimizer_kwargs["iter_max"] = len(train_loader) * optimizer_kwargs["epochs"]
-    optimizer_kwargs["iter_warmup"] = 0.1 * optimizer_kwargs["iter_max"]
+    optimizer_kwargs["iter_warmup"] = 0
     opt_args = argparse.Namespace()
     opt_vars = vars(opt_args)
     for k, v in optimizer_kwargs.items():
