@@ -16,27 +16,27 @@
   - 80
   - 50
   - 50
-  id: 3
+  id: 2
   isthing: 0
   name: Inflammatory
 - color:
   - 4
   - 200
   - 3
-  id: 4
+  id: 3
   isthing: 0
   name: Connective
 - color:
   - 120
   - 120
   - 80
-  id: 5
+  id: 4
   isthing: 0
   name: Dead
 - color:
   - 140
   - 140
   - 140
-  id: 6
+  id: 5
   isthing: 0
   name: Background
