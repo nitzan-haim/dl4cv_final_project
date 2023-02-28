@@ -8,7 +8,8 @@ import torchvision.transforms.functional as F
 import segm.utils.torch as ptu
 
 from segm.data.utils import STATS
-from segm.data.ade20k import ADE20K_CATS_PATH
+#from segm.data.ade20k import ADE20K_CATS_PATH
+from segm.data.pannuke import PANNUKE_CATEGORIES_PATH
 from segm.data.utils import dataset_cat_description, seg_to_rgb
 
 from segm.model.factory import load_model
@@ -29,7 +30,7 @@ def main(model_path, input_dir, output_dir, gpu):
 
     normalization_name = variant["dataset_kwargs"]["normalization"]
     normalization = STATS[normalization_name]
-    cat_names, cat_colors = dataset_cat_description(ADE20K_CATS_PATH)
+    cat_names, cat_colors = dataset_cat_description(PANNUKE_CATEGORIES_PATH)
 
     input_dir = Path(input_dir)
     output_dir = Path(output_dir)
@@ -37,7 +38,11 @@ def main(model_path, input_dir, output_dir, gpu):
 
     list_dir = list(input_dir.iterdir())
     for filename in tqdm(list_dir, ncols=80):
-        pil_im = Image.open(filename).copy()
+        if filename.suffix == '.npy':
+          img_npy = np.load(filename)
+          pil_im = Image.fromarray(img_npy.astype(np.uint8))
+        else:
+          pil_im = Image.open(filename).copy()
         im = F.pil_to_tensor(pil_im).float() / 255
         im = F.normalize(im, normalization["mean"], normalization["std"])
         im = im.to(ptu.device).unsqueeze(0)
@@ -58,8 +63,8 @@ def main(model_path, input_dir, output_dir, gpu):
         pil_seg = Image.fromarray(seg_rgb[0])
 
         pil_blend = Image.blend(pil_im, pil_seg, 0.5).convert("RGB")
-        pil_blend.save(output_dir / filename.name)
-
+        save_filename = filename.name[:-4]+'.png' # replace .npy with .png
+        pil_blend.save(output_dir / save_filename)
 
 if __name__ == "__main__":
     main()
