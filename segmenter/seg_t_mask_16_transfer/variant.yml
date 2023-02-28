@@ -1,8 +1,8 @@
 algorithm_kwargs:
   batch_size: 8
   eval_freq: 4
-  num_epochs: 128
-  start_epoch: 0
+  num_epochs: 256
+  start_epoch: 1
 amp: false
 dataset_kwargs:
   batch_size: 8
@@ -16,7 +16,7 @@ inference_kwargs:
   im_size: 256
   window_size: 256
   window_stride: 256
-log_dir: seg_tiny_mask
+log_dir: seg_t_mask_16_transfer/
 net_kwargs:
   backbone: vit_tiny_patch16_256
   d_model: 192
@@ -39,9 +39,9 @@ net_kwargs:
   patch_size: 16
 optimizer_kwargs:
   clip_grad: null
-  epochs: 128
-  iter_max: 42496
-  iter_warmup: 0.0
+  epochs: 256
+  iter_max: 84992
+  iter_warmup: 8499.2
   lr: 0.01
   min_lr: 0.0001
   momentum: 0.9
