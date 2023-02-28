@@ -44,7 +44,7 @@ def create_vit(model_cfg):
     backbone = model_cfg.pop("backbone")
 
     normalization = model_cfg.pop("normalization")
-    model_cfg["n_cls"] = 6
+    model_cfg["n_cls"] = 1000
     mlp_expansion_ratio = 4
     model_cfg["d_ff"] = mlp_expansion_ratio * model_cfg["d_model"]
 
@@ -53,7 +53,7 @@ def create_vit(model_cfg):
     else:
         default_cfg = dict(
             pretrained=False,
-            num_classes=6,
+            num_classes=1000,
             drop_rate=0.0,
             drop_path_rate=0.0,
             drop_block_rate=None,
