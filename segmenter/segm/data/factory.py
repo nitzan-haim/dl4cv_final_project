@@ -6,7 +6,7 @@ from segm.data import PascalContextDataset
 from segm.data import CityscapesDataset
 from segm.data import Loader
 from segm.data import PannukeSegmentation
-
+from segm.data import PannukeBreastSegmentation
 
 def create_dataset(dataset_kwargs):
     dataset_kwargs = dataset_kwargs.copy()
@@ -18,6 +18,8 @@ def create_dataset(dataset_kwargs):
     # load dataset_name
     if dataset_name == "pannuke":
         dataset = PannukeSegmentation(split=split, **dataset_kwargs)
+    elif dataset_name == "pannuke_breast":
+        dataset = PannukeBreastSegmentation(split=split, **dataset_kwargs)
     elif dataset_name == "imagenet":
         dataset_kwargs.pop("patch_size")
         dataset = ImagenetDataset(split=split, **dataset_kwargs)
