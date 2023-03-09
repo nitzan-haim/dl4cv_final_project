@@ -1,7 +1,7 @@
 
 # dataset settings
 dataset_type = "PannukeDataset"
-data_root = "/home/labs/testing/class54/project_data"
+data_root = "/home/labs/testing/class54/project_data/Breast"
 # data_root = "/content/gdrive/MyDrive/DL4CV/final_project/data"
 
 img_norm_cfg = dict(
