@@ -45,6 +45,8 @@ from segm.engine import train_one_epoch, evaluate
 @click.option("--eval-freq", default=None, type=int)
 @click.option("--amp/--no-amp", default=False, is_flag=True)
 @click.option("--resume/--no-resume", default=True, is_flag=True)
+@click.option("--freeze-encoder/--train-encoder", default=False, is_flag=True)
+
 def main(
     log_dir,
     dataset,
@@ -66,6 +68,7 @@ def main(
     eval_freq,
     amp,
     resume,
+    freeze_encoder,
 ):
     # start distributed mode
     ptu.set_gpu_mode(True)
@@ -209,6 +212,15 @@ def main(
 
     if ptu.distributed:
         model = DDP(model, device_ids=[ptu.device], find_unused_parameters=True)
+    
+    # freeze encoder parameters
+    if freeze_encoder:
+        print("freeze encoder weights")
+        for param in model.encoder.parameters():
+            param.requires_grad = False
+          
+        model.encoder.pos_embed.requires_grad = True # exlude positional embedding
+
 
     # save config
     variant_str = yaml.dump(variant)
