@@ -23,7 +23,9 @@ class PannukeSegmentation(BaseMMSeg):
 
     def update_default_config(self, config):
         root_dir = dataset_dir()
-        path = Path(root_dir)
+	print("in pannuke.py: root_dir from env variable = ",root_dir)
+        path = Path(config.data_root)
+	print("in pannuke.py: data_root from config/pannuke.py = ",config.data_root) 
         config.data_root = path
         if self.split == "train":
             config.data.train.data_root = path
